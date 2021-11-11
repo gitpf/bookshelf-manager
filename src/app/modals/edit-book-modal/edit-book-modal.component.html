@@ -1,0 +1,90 @@
+<div class="dialog-responsive flex flex-column">
+  <div
+    [formGroup]="bookForm"
+    class="
+      flex flex-column
+      dialog-content
+      justify-content-center
+      align-items-start
+    "
+  >
+    <label class="mt-2" for="title">Title</label>
+    <input
+      class="mt-1 w-100"
+      id="title"
+      type="text"
+      formControlName="title"
+      pInputText
+    />
+
+    <label class="mt-2" for="authors">Authors</label>
+    <input
+      class="mt-1 w-100"
+      id="authors"
+      type="text"
+      formControlName="authors"
+      pInputText
+    />
+
+    <label class="mt-2" for="pages">Pages</label>
+    <input
+      class="mt-1 w-100"
+      id="pages"
+      type="number"
+      formControlName="pages"
+      pInputText
+    />
+
+    <label class="mt-2" for="rating">Your Rating</label>
+    <p-rating
+      class="mt-1"
+      id="rating"
+      formControlName="rating"
+      [cancel]="false"
+    ></p-rating>
+
+    <label class="mt-2">Borrowed</label>
+    <p-checkbox
+      class="mt-1"
+      formControlName="borrowed"
+      value="borrowed"
+      [binary]="true"
+    ></p-checkbox>
+
+    <label class="mt-2" for="borrowed-at">Borrowed At Date</label>
+    <p-calendar
+      class="mt-1"
+      id="borrowed-at"
+      formControlName="borrowedAt"
+    ></p-calendar>
+
+    <label class="mt-2" for="borrowed-to">Borrowed To</label>
+    <input
+      class="mt-1 w-100"
+      id="borrowed-to"
+      type="text"
+      formControlName="borrowedTo"
+      pInputText
+    />
+  </div>
+
+  <div class="flex justify-content-end mt-2">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="mr-2"
+      [disabled]="bookForm.invalid"
+      label="Edit"
+      (click)="editBook()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Close"
+      class="p-button-secondary"
+      (click)="close()"
+    ></button>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+:host ::ng-deep {
+  .grid-books {
+    height: 100%;
+    .p-datatable-wrapper {
+      height: calc(100% - 2rem);
+    }
+  }
+}
+
+.search-bar-container {
+  height: 6rem;
+}
+
+.book-preview-year,
+.book-preview-authors {
+  font-size: 0.8em;
+  color: #8d8d8d;
+}
+.table-container {
+  max-width: 120rem;
+}
+
+.book-thumbnail {
+  width: 3rem;
+  height: 4rem;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.col-w-1 {
+  min-width: 2rem;
+}
+.col-w-2 {
+  min-width: 4rem;
+}
+.col-w-3 {
+  min-width: 6rem;
+}
+.col-w-4 {
+  min-width: 8rem;
+}
+.col-w-5 {
+  min-width: 12rem;
+}
+.col-w-6 {
+  min-width: 16rem;
+}

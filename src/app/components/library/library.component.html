@@ -1,0 +1,200 @@
+<div class="flex flex-column w-100 h-100">
+  <div
+    class="
+      flex flex-none
+      justify-content-center
+      align-items-center
+      search-bar-container
+    "
+  >
+    <p-autoComplete
+      placeholder="Search for a book to add"
+      class="m-4"
+      [(ngModel)]="selectedBook"
+      [suggestions]="results"
+      (completeMethod)="search($event)"
+      (onSelect)="onSelect($event)"
+      field="title"
+      [scrollHeight]="'400px'"
+    >
+      <ng-template let-book pTemplate="item">
+        <div class="flex">
+          <img [src]="book.thumbnail" class="book-thumbnail" />
+          <div class="ml-2">
+            <div>{{ book.title }}</div>
+            <div class="book-preview-authors">{{ book.authors }}</div>
+            <div class="book-preview-year">{{ book.year }}</div>
+          </div>
+        </div>
+      </ng-template></p-autoComplete
+    >
+  </div>
+
+  <p-table
+    #dt1
+    [(selection)]="selectedBooks"
+    [loading]="gridLoading"
+    [value]="collection"
+    [responsive]="true"
+    responsiveLayout="scroll"
+    scrollDirection="vertical"
+    [paginator]="true"
+    [rows]="5"
+    dataKey="id"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} to {last} of {totalRecords} books"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    styleClass="grid-books p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-between">
+        <span>
+          <button
+            pButton
+            pRipple
+            label="New"
+            icon="pi pi-plus"
+            class="p-button-success p-mr-2"
+            (click)="openNewModal()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger ml-2"
+            (click)="deleteSelectedBooks()"
+            [disabled]="
+              !selectedBooks || !selectedBooks.length || collection.length < 1
+            "
+          ></button>
+        </span>
+
+        <button
+          pButton
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt1)"
+        ></button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <!--Select Row-->
+        <th class="col-w-2">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <!--Edit Row-->
+
+        <th class="col-w-2"></th>
+
+        <!--Thumbnail-->
+        <th class="col-w-3">Cover</th>
+
+        <!--Title-->
+        <th class="col-w-5">
+          <div class="w-100 flex justify-content-between align-items-center">
+            Title
+            <p-columnFilter
+              type="text"
+              field="title"
+              display="title"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <!--Authors-->
+        <th class="col-w-3">
+          <div class="w-100 flex justify-content-between align-items-center">
+            Authors
+            <p-columnFilter
+              type="text"
+              field="authors"
+              display="authors"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <!--Pages-->
+        <th>Pages</th>
+        <!--Rating-->
+        <th class="col-w-5">Rating</th>
+        <!--Borrowed State-->
+        <th class="col-w-3">Borrowed</th>
+        <!--Borrowed To Whom-->
+        <th class="col-w-3">To</th>
+        <!--Borrowed At Date-->
+        <th class="col-w-4">At</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-book>
+      <tr>
+        <!--Select Row-->
+        <td class="col-w-2">
+          <p-tableCheckbox [value]="book"></p-tableCheckbox>
+        </td>
+        <!--Edit Row-->
+        <td class="col-w-2">
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-warning"
+            (click)="openEditModal(book)"
+          ></button>
+        </td>
+        <!--Thumbnail-->
+        <td class="col-w-3">
+          <img
+            class="book-thumbnail"
+            [src]="book.thumbnail"
+            alt="book's thumbnail"
+          />
+        </td>
+        <!--Title-->
+        <td>
+          {{ book.title }}
+        </td>
+        <!--Authors-->
+        <td>
+          {{ book.authors }}
+        </td>
+        <!--Pages-->
+        <td class="col-w-3">
+          {{ book.pages }}
+        </td>
+        <!--Rating-->
+        <td class="col-w-5">
+          <p-rating
+            [readonly]="true"
+            [(ngModel)]="book.rating"
+            [cancel]="false"
+          ></p-rating>
+        </td>
+        <!--Borrowed-->
+        <td>
+          <div class="flex justify-content-center col-w-3">
+            <p-checkbox
+              [readonly]="true"
+              [binary]="true"
+              [(ngModel)]="book.borrowed"
+            ></p-checkbox>
+          </div>
+        </td>
+        <!--Borrowed To Whom-->
+        <td class="col-w-3">
+          {{ book.borrowedTo }}
+        </td>
+        <!--Borrowed At Date-->
+        <td class="col-w-4">
+          {{ book.borrowedAt | date: "dd-MM-yyyy" }}
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr class="w-100">
+        <td class="w-100" colspan="7">No books in collection yet</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
